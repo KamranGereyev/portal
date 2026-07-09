@@ -1,0 +1,10 @@
+{
+  "name": "portal",
+  "private": true,
+  "scripts": {
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}
