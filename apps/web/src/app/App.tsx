@@ -1,29 +1,40 @@
-import { useState } from "react";
-import { Button, Input, Modal, Select } from "@portal/ui";
+import { Table, type TableColumn } from "@portal/ui";
+
+interface DemoRow {
+    id: number;
+    name: string;
+    type: string;
+    amount: number;
+    createdAt: string;
+}
+
+const TYPES = ["Отпуск", "Оборудование", "Доступ", "Командировка"];
+
+const ROWS: DemoRow[] = Array.from({ length: 5000 }, (_, i) => ({
+    id: i + 1,
+    name: `Заявка №${i + 1}`,
+    type: TYPES[i % TYPES.length] ?? "",
+    amount: ((i * 7919) % 100000) / 100,
+    createdAt: new Date(2026, 0, 1 + (i % 180)).toLocaleDateString("ru"),
+}));
+
+const COLUMNS: TableColumn<DemoRow>[] = [
+    { id: "id", header: "ID", cell: (r) => r.id, sortValue: (r) => r.id },
+    { id: "name", header: "Название", cell: (r) => r.name, sortValue: (r) => r.name },
+    { id: "type", header: "Тип", cell: (r) => r.type, sortValue: (r) => r.type },
+    {
+        id: "amount",
+        header: "Сумма",
+        cell: (r) => r.amount.toFixed(2),
+        sortValue: (r) => r.amount,
+    },
+    { id: "createdAt", header: "Создана", cell: (r) => r.createdAt },
+];
 
 export function App() {
-    const [modalOpen, setModalOpen] = useState(false);
-
     return (
-        <main style={{ padding: 24, maxWidth: 360, display: "grid", gap: 16 }}>
-            <Input label="Email" placeholder="you@example.com" />
-            <Button onClick={() => setModalOpen(true)}>Открыть модалку</Button>
-
-            <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Новая заявка">
-                <div style={{ display: "grid", gap: 16 }}>
-                    <Input label="Название" placeholder="Кратко о заявке" />
-                    <Select
-                        label="Тип"
-                        placeholder="Выберите тип"
-                        defaultValue=""
-                        options={[
-                            { value: "leave", label: "Отпуск" },
-                            { value: "equipment", label: "Оборудование" },
-                        ]}
-                    />
-                    <Button onClick={() => setModalOpen(false)}>Сохранить</Button>
-                </div>
-            </Modal>
+        <main style={{ padding: 24 }}>
+            <Table columns={COLUMNS} rows={ROWS} getRowKey={(r) => r.id} />
         </main>
     );
 }
