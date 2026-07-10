@@ -1,24 +1,29 @@
-import {Button, Input, Select} from "@portal/ui";
+import { useState } from "react";
+import { Button, Input, Modal, Select } from "@portal/ui";
 
 export function App() {
+    const [modalOpen, setModalOpen] = useState(false);
+
     return (
         <main style={{ padding: 24, maxWidth: 360, display: "grid", gap: 16 }}>
             <Input label="Email" placeholder="you@example.com" />
-            <Input label="Имя" error="Обязательное поле" />
-            <Input label="Телефон" disabled value="+994..." readOnly />
-            <Button>Отправить</Button>
+            <Button onClick={() => setModalOpen(true)}>Открыть модалку</Button>
 
-            <Select
-                label="Тип заявки"
-                placeholder="Выберите тип"
-                defaultValue=""
-                options={[
-                    { value: "leave", label: "Отпуск" },
-                    { value: "equipment", label: "Оборудование" },
-                    { value: "access", label: "Доступ" },
-                ]}
-            />
-            <Select label="Статус" error="Выберите статус" defaultValue="" options={[]} />
+            <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Новая заявка">
+                <div style={{ display: "grid", gap: 16 }}>
+                    <Input label="Название" placeholder="Кратко о заявке" />
+                    <Select
+                        label="Тип"
+                        placeholder="Выберите тип"
+                        defaultValue=""
+                        options={[
+                            { value: "leave", label: "Отпуск" },
+                            { value: "equipment", label: "Оборудование" },
+                        ]}
+                    />
+                    <Button onClick={() => setModalOpen(false)}>Сохранить</Button>
+                </div>
+            </Modal>
         </main>
     );
 }
