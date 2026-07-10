@@ -1,4 +1,4 @@
-import { Button, Input } from "@portal/ui";
+import {Button, Input, Select} from "@portal/ui";
 
 export function App() {
     return (
@@ -7,6 +7,18 @@ export function App() {
             <Input label="Имя" error="Обязательное поле" />
             <Input label="Телефон" disabled value="+994..." readOnly />
             <Button>Отправить</Button>
+
+            <Select
+                label="Тип заявки"
+                placeholder="Выберите тип"
+                defaultValue=""
+                options={[
+                    { value: "leave", label: "Отпуск" },
+                    { value: "equipment", label: "Оборудование" },
+                    { value: "access", label: "Доступ" },
+                ]}
+            />
+            <Select label="Статус" error="Выберите статус" defaultValue="" options={[]} />
         </main>
     );
 }
